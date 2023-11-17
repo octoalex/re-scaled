@@ -1,0 +1,36 @@
+﻿# TASKLIST
+
+- [ ] Movement
+    - [ ] run
+    - [ ] slide
+    - [ ] jump
+    - [ ] slide jump
+    - [ ] wall slide
+    - [ ] wall jump
+- [ ] Weapons
+    - [ ] pistol
+    - [ ] revolver
+    - [ ] double barrel shotgun
+    - [ ] bolt action rifle
+    - [ ] musket
+- [ ] Scale Down Mechanic
+    - [ ] reduced scale
+        - 65% scale
+        - allows player to enter smaller areas
+    - [ ] limited time
+      - player can only stay in the reduced scale until the timer runs out
+      - timer regenerates at half the speed that it is consumed
+    - [ ] boosts
+        - [ ] speed
+        - [ ] jump height
+        - [ ] less gravity
+        - [ ] longer timer
+    - [ ] scaling scales
+      - objects obtained from bosses, challenges or around the levels
+    - [ ] crushing
+      - if the timer runs out when you're in an area too small for your full size, you die
+- [ ] 1HITKO
+    - [ ] armor
+      - area on entity that takes 1 hit of damage instead of you
+    - [ ] safe spots
+      - area on entity that ignores damage
