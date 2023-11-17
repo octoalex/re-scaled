@@ -10,6 +10,10 @@ You can find all that I intend to do in this game [in this file](TASKLIST.md)
 
 This Project is Licensed under MPL 2.0
 
-The license header is included where possible, except for:
+The License Header is included where possible, except for:
 - Non-Text Files
 - Files Licensed to Me by Third Parties
+
+In the case of Non-Text Files, a file called LICENSE.md will be found in the same folder, containing:
+- The License Header
+- The Licensed Files
