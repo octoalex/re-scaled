@@ -27,6 +27,7 @@
         - [ ] longer timer
     - [ ] scaling scales
       - objects obtained from bosses, challenges or around the levels
+      - they increase the player's boosts
     - [ ] crushing
       - if the timer runs out when you're in an area too small for your full size, you die
 - [ ] 1HITKO
