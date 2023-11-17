@@ -1,12 +1,13 @@
 ﻿# TASKLIST
 
 - [ ] Movement
-    - [ ] run
-    - [ ] slide
-    - [ ] jump
-    - [ ] slide jump
-    - [ ] wall slide
-    - [ ] wall jump
+  - [ ] walk
+  - [ ] run
+  - [ ] slide
+  - [ ] jump
+  - [ ] slide jump
+  - [ ] wall slide
+  - [ ] wall jump
 - [ ] Weapons
     - [ ] pistol
     - [ ] revolver
