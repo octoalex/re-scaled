@@ -1,5 +1,10 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Re-Scaled", "Re-Scaled.csproj", "{190103F1-A819-4C0B-8529-913011CEE86A}"
 EndProject
 Global
