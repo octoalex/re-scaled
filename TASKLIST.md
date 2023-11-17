@@ -1,7 +1,7 @@
 ﻿# TASKLIST
 
 - [ ] Movement
-  - [ ] walk
+  - [x] walk
   - [ ] run
   - [ ] slide
   - [ ] jump
