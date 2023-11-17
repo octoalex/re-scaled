@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://deu0jnkyjaf77"]
+
+[ext_resource type="Material" uid="uid://bg7oix7yx5pxr" path="res://levels/develop/floor_material.tres" id="1_2gtqg"]
+[ext_resource type="Material" uid="uid://626ywbnido4h" path="res://levels/develop/obstacle_material.tres" id="2_aqbel"]
+[ext_resource type="PackedScene" uid="uid://ba7gnp0dm1s2g" path="res://entities/player/player.tscn" id="3_thr54"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wmtnk"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jpsg0"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6i0ng"]
+size = Vector3(4, 1, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x6s6k"]
+size = Vector3(4, 1, 2)
+
+[node name="Develop" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Floor" type="Node3D" parent="World"]
+
+[node name="Body" type="StaticBody3D" parent="World/Floor"]
+
+[node name="Collision" type="CollisionShape3D" parent="World/Floor/Body"]
+shape = SubResource("WorldBoundaryShape3D_wmtnk")
+
+[node name="Mesh" type="MeshInstance3D" parent="World/Floor"]
+material_override = ExtResource("1_2gtqg")
+mesh = SubResource("PlaneMesh_jpsg0")
+skeleton = NodePath("../..")
+
+[node name="Obstacle0" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="Body" type="StaticBody3D" parent="World/Obstacle0"]
+
+[node name="Collision" type="CollisionShape3D" parent="World/Obstacle0/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
+shape = SubResource("BoxShape3D_6i0ng")
+
+[node name="Mesh" type="MeshInstance3D" parent="World/Obstacle0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
+material_override = ExtResource("2_aqbel")
+mesh = SubResource("BoxMesh_x6s6k")
+
+[node name="Lighting" type="Node3D" parent="World"]
+
+[node name="Directional" type="DirectionalLight3D" parent="World/Lighting"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_thr54")]
