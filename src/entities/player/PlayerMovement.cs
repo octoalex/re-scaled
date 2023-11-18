@@ -11,15 +11,21 @@ namespace OctoAlex.ReScaled.Entities.Player;
 
 public partial class PlayerMovement : CharacterBody3D {
 
-	[Export] private float _walkSpeed = 5.0f;
+	[Export] private float _walkSpeed = 7f;
 
-	[Export] private float _acceleration = 10.0f;
+	[Export] private float _acceleration = 10f;
 
 	[Export] private float _sensitivity = 15f;
 
 	[Export] private ulong _msecRunInterval = 1000;
 
 	[Export] private float _runSpeed = 12f;
+
+	[Export] private float _mass = 3f;
+
+	[Export] private float _jumpHeight = 1.25f;
+
+	[Export] private float _airborneControlFactor = 0.35f;
 
 	[Export] private Camera3D _camera;
 
@@ -28,6 +34,8 @@ public partial class PlayerMovement : CharacterBody3D {
 	private ulong _startPressed;
 
 	private bool _pressed;
+
+	private bool _runStarted;
 
 	private Vector3 _velocityDirection;
 
@@ -47,22 +55,35 @@ public partial class PlayerMovement : CharacterBody3D {
 			);
 		
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+		velocity.Y -= gravity * fDelta * _mass;
 
+		if (IsOnFloor()) {
+			if (Input.IsActionJustPressed("jump")) {
+				velocity.Y = Mathf.Sqrt(2 * gravity * _jumpHeight * _mass);
+			}
+		}
+			
 		float speed = _walkSpeed;
+		float accelerationFactor = 1;
 		if (direction == Vector3.Zero) {
 			_pressed = false;
+			_runStarted = false;
 		} else if (!_pressed) {
 			_pressed = true;
 			_startPressed = Time.GetTicksMsec();
-		} else if (_startPressed + _msecRunInterval < Time.GetTicksMsec()) {
+		} else if ((_startPressed + _msecRunInterval < Time.GetTicksMsec() && IsOnFloor()) || _runStarted) {
 			speed = _runSpeed;
+			_runStarted = true;
+		} else if (!IsOnFloor()) {
+			accelerationFactor = _airborneControlFactor;
 		}
 		
-		_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta);
+		_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta * accelerationFactor);
 		
 		velocity.X = _velocityDirection.X * speed;
 		velocity.Z = _velocityDirection.Z * speed;
-
+		
 		Velocity = velocity;
 		MoveAndSlide();
 	}
