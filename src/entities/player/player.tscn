@@ -9,6 +9,7 @@
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera")]
 script = ExtResource("1_27w07")
+_walkSpeed = 7.0
 _sensitivity = 15.0
 _camera = NodePath("Camera3D")
 

@@ -52,3 +52,6 @@ transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_thr54")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0073452, -0.0201406, -0.0191383)
+_walkSpeed = 7.0
+_acceleration = 1.0
