@@ -4,7 +4,7 @@
   - [x] walk
   - [x] run
   - [ ] slide
-  - [ ] jump
+  - [x] jump
   - [ ] slide jump
   - [ ] wall slide
   - [ ] wall jump
