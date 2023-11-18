@@ -2,7 +2,7 @@
 
 - [ ] Movement
   - [x] walk
-  - [ ] run
+  - [x] run
   - [ ] slide
   - [ ] jump
   - [ ] slide jump

@@ -19,7 +19,7 @@ public partial class PlayerMovement : CharacterBody3D {
 
 	[Export] private ulong _msecRunInterval = 1000;
 
-	[Export] private float _runBoost = 1.5f;
+	[Export] private float _runSpeed = 12f;
 
 	[Export] private Camera3D _camera;
 
@@ -47,10 +47,21 @@ public partial class PlayerMovement : CharacterBody3D {
 			);
 		
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+
+		float speed = _walkSpeed;
+		if (direction == Vector3.Zero) {
+			_pressed = false;
+		} else if (!_pressed) {
+			_pressed = true;
+			_startPressed = Time.GetTicksMsec();
+		} else if (_startPressed + _msecRunInterval < Time.GetTicksMsec()) {
+			speed = _runSpeed;
+		}
+		
 		_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta);
 		
-		velocity.X = _velocityDirection.X * _walkSpeed;
-		velocity.Z = _velocityDirection.Z * _walkSpeed;
+		velocity.X = _velocityDirection.X * speed;
+		velocity.Z = _velocityDirection.Z * speed;
 
 		Velocity = velocity;
 		MoveAndSlide();
@@ -63,7 +74,6 @@ public partial class PlayerMovement : CharacterBody3D {
 		}
 
 		RotateY(-relative.X * _sensitivity);
-		//_camera.RotateX(-relative.Y * _sensitivity);
 		Vector3 camRotation = _camera.Rotation;
 		camRotation.X = Mathf.Clamp(camRotation.X - relative.Y * _sensitivity, Mathf.DegToRad(-90), Mathf.DegToRad(90));
 		_camera.Rotation = camRotation;
