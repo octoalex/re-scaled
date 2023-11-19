@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://ba7gnp0dm1s2g"]
+[gd_scene load_steps=7 format=3 uid="uid://ba7gnp0dm1s2g"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.cs" id="1_27w07"]
+[ext_resource type="Script" path="res://entities/player/PlayerEntity.cs" id="1_kyyrq"]
 [ext_resource type="Material" uid="uid://bfr4jf5qyvh5f" path="res://entities/player/player_material.tres" id="2_626yx"]
 [ext_resource type="Script" path="res://entities/player/PlayerRotation.cs" id="2_ovi4i"]
 
@@ -9,6 +10,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n6buv"]
 
 [node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_kyyrq")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
