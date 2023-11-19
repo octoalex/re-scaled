@@ -27,7 +27,17 @@ public partial class PlayerMovement : CharacterBody3D {
 
 	[Export] private float _airborneControlFactor = 0.35f;
 
+	[Export] private float _slideDeceleration = 5f;
+
+	[Export] private float _slideControl = 4f;
+
+	[Export] private float _slideSpeed = 16f;
+
 	[Export] private Camera3D _camera;
+
+	[Export] private MeshInstance3D _mesh;
+
+	[Export] private CollisionShape3D _collision;
 
 	private MouseInput _mouse;
 
@@ -36,6 +46,10 @@ public partial class PlayerMovement : CharacterBody3D {
 	private bool _pressed;
 
 	private bool _runStarted;
+
+	private bool _sliding;
+
+	private float _slideVelocity;
 
 	private Vector3 _velocityDirection;
 
@@ -66,20 +80,36 @@ public partial class PlayerMovement : CharacterBody3D {
 			
 		float speed = _walkSpeed;
 		float accelerationFactor = 1;
-		if (direction == Vector3.Zero) {
-			_pressed = false;
-			_runStarted = false;
-		} else if (!_pressed) {
-			_pressed = true;
-			_startPressed = Time.GetTicksMsec();
-		} else if ((_startPressed + _msecRunInterval < Time.GetTicksMsec() && IsOnFloor()) || _runStarted) {
-			speed = _runSpeed;
-			_runStarted = true;
-		} else if (!IsOnFloor()) {
-			accelerationFactor = _airborneControlFactor;
+		
+		if (Input.IsActionJustPressed("slide")) {
+			SlideBegin();
+		} else if (Input.IsActionJustReleased("slide")) {
+			SlideEnd();
 		}
 		
-		_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta * accelerationFactor);
+		if (!_sliding) {
+			if (direction == Vector3.Zero) {
+				_pressed = false;
+				_runStarted = false;
+			} else if (!_pressed) {
+				_pressed = true;
+				_startPressed = Time.GetTicksMsec();
+			} else if ((_startPressed + _msecRunInterval < Time.GetTicksMsec() && IsOnFloor()) || _runStarted) {
+				speed = _runSpeed;
+				_runStarted = true;
+			} else if (!IsOnFloor()) {
+				accelerationFactor = _airborneControlFactor;
+			}
+			_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta * accelerationFactor);
+		} else {
+			if (_slideVelocity > 1 && (_velocityDirection * speed).Length() > 2f) {
+				_velocityDirection = _velocityDirection.MoveToward(-Transform.Basis.Z, _slideControl * fDelta);
+				speed = _slideVelocity;
+				_slideVelocity = Mathf.Min(_slideVelocity - _slideDeceleration * fDelta, (_velocityDirection * speed).Length());
+			} else {
+				speed = 0;
+			}
+		}
 		
 		velocity.X = _velocityDirection.X * speed;
 		velocity.Z = _velocityDirection.Z * speed;
@@ -98,5 +128,24 @@ public partial class PlayerMovement : CharacterBody3D {
 		Vector3 camRotation = _camera.Rotation;
 		camRotation.X = Mathf.Clamp(camRotation.X - relative.Y * _sensitivity, Mathf.DegToRad(-90), Mathf.DegToRad(90));
 		_camera.Rotation = camRotation;
+	}
+
+	private void SlideBegin ( ) {
+		var shape = _collision.Shape as CapsuleShape3D;
+		shape.Height = 1f;
+		var mesh = _mesh.Mesh as CapsuleMesh;
+		mesh.Height = 1f;
+		_sliding = true;
+		// _camera.Position -= Vector3.Up;
+		_slideVelocity = _slideSpeed;
+	}
+
+	private void SlideEnd ( ) {
+		var shape = _collision.Shape as CapsuleShape3D;
+		shape.Height = 2f;
+		var mesh = _mesh.Mesh as CapsuleMesh;
+		mesh.Height = 2f;
+		_sliding = false;
+		// _camera.Position += Vector3.Up;
 	}
 }

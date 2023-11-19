@@ -7,9 +7,11 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n6buv"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera", "_mesh", "_collision")]
 script = ExtResource("1_27w07")
 _camera = NodePath("Camera3D")
+_mesh = NodePath("MeshInstance")
+_collision = NodePath("Collision")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

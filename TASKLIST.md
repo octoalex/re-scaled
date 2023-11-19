@@ -3,7 +3,7 @@
 - [ ] Movement
   - [x] walk
   - [x] run
-  - [ ] slide
+  - [x] slide
   - [x] jump
   - [ ] slide jump
   - [ ] wall slide
