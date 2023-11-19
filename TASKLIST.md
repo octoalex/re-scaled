@@ -5,7 +5,7 @@
   - [x] run
   - [x] slide
   - [x] jump
-  - [ ] slide jump
+  - [x] slide jump
   - [ ] wall slide
   - [ ] wall jump
 - [ ] Weapons
