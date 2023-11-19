@@ -1,0 +1,38 @@
+using Godot;
+using OctoAlex.ReScaled.Common;
+
+namespace OctoAlex.ReScaled.Entities.Player;
+
+public partial class PlayerRotation : Camera3D {
+
+	[Export] private CharacterBody3D _player;
+
+	[Export] private float _sensitivity = 15f;
+
+	[Export] private Camera3D _camera;
+
+	private MouseInput _mouse;
+	
+	// Called when the node enters the scene tree for the first time.
+
+	public override void _Ready ( ) {
+		_mouse = new MouseInput(GetViewport());
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process ( double delta ) {
+		
+	}
+
+	public override void _Input ( InputEvent evt ) {
+		bool hasMoved = _mouse.GetMouseRelative(evt, out Vector2 relative);
+		if (!hasMoved) {
+			return;
+		}
+
+		_player.RotateY(-relative.X * _sensitivity);
+		Vector3 camRotation = _camera.Rotation;
+		camRotation.X = Mathf.Clamp(camRotation.X - relative.Y * _sensitivity, Mathf.DegToRad(-90), Mathf.DegToRad(90));
+		_camera.Rotation = camRotation;
+	}
+}

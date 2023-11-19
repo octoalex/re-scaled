@@ -9,13 +9,13 @@ using OctoAlex.ReScaled.Common;
 
 namespace OctoAlex.ReScaled.Entities.Player;
 
-public partial class PlayerMovement : CharacterBody3D {
+public partial class PlayerMovement : Node3D {
+
+	[Export] private CharacterBody3D _player;
 
 	[Export] private float _walkSpeed = 7f;
 
 	[Export] private float _acceleration = 10f;
-
-	[Export] private float _sensitivity = 15f;
 
 	[Export] private ulong _msecRunInterval = 1000;
 
@@ -33,13 +33,9 @@ public partial class PlayerMovement : CharacterBody3D {
 
 	[Export] private float _slideSpeed = 16f;
 
-	[Export] private Camera3D _camera;
-
 	[Export] private MeshInstance3D _mesh;
 
 	[Export] private CollisionShape3D _collision;
-
-	private MouseInput _mouse;
 
 	private ulong _startPressed;
 
@@ -53,12 +49,8 @@ public partial class PlayerMovement : CharacterBody3D {
 
 	private Vector3 _velocityDirection;
 
-	public override void _Ready ( ) {
-		_mouse = new MouseInput(GetViewport());
-	}
-
 	public override void _PhysicsProcess ( double delta ) {
-		Vector3 velocity = Velocity;
+		Vector3 velocity = _player.Velocity;
 		var fDelta = (float) delta;
 
 		// Get the input direction and handle the movement/deceleration.
@@ -68,11 +60,12 @@ public partial class PlayerMovement : CharacterBody3D {
 			"move_forward", "move_backward"
 			);
 		
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = (_player.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 		float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 		velocity.Y -= gravity * fDelta * _mass;
+		bool isOnFloor = _player.IsOnFloor();
 
-		if (IsOnFloor()) {
+		if (isOnFloor) {
 			if (Input.IsActionJustPressed("jump")) {
 				velocity.Y = Mathf.Sqrt(2 * gravity * _jumpHeight * _mass * (_sliding ? 1.2f : 1f));
 			}
@@ -94,16 +87,16 @@ public partial class PlayerMovement : CharacterBody3D {
 			} else if (!_pressed) {
 				_pressed = true;
 				_startPressed = Time.GetTicksMsec();
-			} else if ((_startPressed + _msecRunInterval < Time.GetTicksMsec() && IsOnFloor()) || _runStarted) {
+			} else if ((_startPressed + _msecRunInterval < Time.GetTicksMsec() && isOnFloor) || _runStarted) {
 				speed = _runSpeed;
 				_runStarted = true;
-			} else if (!IsOnFloor()) {
+			} else if (!isOnFloor) {
 				accelerationFactor = _airborneControlFactor;
 			}
 			_velocityDirection = _velocityDirection.MoveToward(direction, _acceleration * fDelta * accelerationFactor);
 		} else {
 			if (_slideVelocity > 1 && (_velocityDirection * speed).Length() > 2f) {
-				_velocityDirection = _velocityDirection.MoveToward(-Transform.Basis.Z, _slideControl * fDelta);
+				_velocityDirection = _velocityDirection.MoveToward(-_player.Basis.Z, _slideControl * fDelta);
 				speed = _slideVelocity;
 				_slideVelocity = Mathf.Min(_slideVelocity - _slideDeceleration * fDelta, (_velocityDirection * speed).Length());
 			} else {
@@ -114,20 +107,8 @@ public partial class PlayerMovement : CharacterBody3D {
 		velocity.X = _velocityDirection.X * speed;
 		velocity.Z = _velocityDirection.Z * speed;
 		
-		Velocity = velocity;
-		MoveAndSlide();
-	}
-
-	public override void _Input ( InputEvent evt ) {
-		bool hasMoved = _mouse.GetMouseRelative(evt, out Vector2 relative);
-		if (!hasMoved) {
-			return;
-		}
-
-		RotateY(-relative.X * _sensitivity);
-		Vector3 camRotation = _camera.Rotation;
-		camRotation.X = Mathf.Clamp(camRotation.X - relative.Y * _sensitivity, Mathf.DegToRad(-90), Mathf.DegToRad(90));
-		_camera.Rotation = camRotation;
+		_player.Velocity = velocity;
+		_player.MoveAndSlide();
 	}
 
 	private void SlideBegin ( ) {

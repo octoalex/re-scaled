@@ -1,17 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ba7gnp0dm1s2g"]
+[gd_scene load_steps=6 format=3 uid="uid://ba7gnp0dm1s2g"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.cs" id="1_27w07"]
 [ext_resource type="Material" uid="uid://bfr4jf5qyvh5f" path="res://entities/player/player_material.tres" id="2_626yx"]
+[ext_resource type="Script" path="res://entities/player/PlayerRotation.cs" id="2_ovi4i"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cqgy2"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n6buv"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("_camera", "_mesh", "_collision")]
-script = ExtResource("1_27w07")
-_camera = NodePath("Camera3D")
-_mesh = NodePath("MeshInstance")
-_collision = NodePath("Collision")
+[node name="Player" type="CharacterBody3D"]
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -23,7 +20,16 @@ layers = 2
 material_override = ExtResource("2_626yx")
 mesh = SubResource("CapsuleMesh_n6buv")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("_player", "_camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 cull_mask = 1048573
 fov = 90.0
+script = ExtResource("2_ovi4i")
+_player = NodePath("..")
+_camera = NodePath(".")
+
+[node name="Movement" type="Node3D" parent="." node_paths=PackedStringArray("_player", "_mesh", "_collision")]
+script = ExtResource("1_27w07")
+_player = NodePath("..")
+_mesh = NodePath("../MeshInstance")
+_collision = NodePath("../Collision")
