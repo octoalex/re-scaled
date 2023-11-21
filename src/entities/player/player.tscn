@@ -1,13 +1,52 @@
-[gd_scene load_steps=7 format=3 uid="uid://ba7gnp0dm1s2g"]
+[gd_scene load_steps=12 format=3 uid="uid://ba7gnp0dm1s2g"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.cs" id="1_27w07"]
 [ext_resource type="Script" path="res://entities/player/PlayerEntity.cs" id="1_kyyrq"]
 [ext_resource type="Material" uid="uid://bfr4jf5qyvh5f" path="res://entities/player/player_material.tres" id="2_626yx"]
 [ext_resource type="Script" path="res://entities/player/PlayerRotation.cs" id="2_ovi4i"]
+[ext_resource type="Script" path="res://entities/player/PlayerWeapons.cs" id="5_0xgf4"]
+[ext_resource type="PackedScene" uid="uid://crk6uwimlu8k4" path="res://weapons/test_weapon/test_weapon.tscn" id="6_orqt7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cqgy2"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_n6buv"]
+
+[sub_resource type="Animation" id="Animation_wpjis"]
+resource_name = "gun_spin"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/Weapons:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(6.28319, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_am51q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/Weapons:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n1tob"]
+_data = {
+"RESET": SubResource("Animation_am51q"),
+"gun_spin": SubResource("Animation_wpjis")
+}
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_kyyrq")
@@ -30,8 +69,19 @@ script = ExtResource("2_ovi4i")
 _player = NodePath("..")
 _camera = NodePath(".")
 
+[node name="Weapons" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("_animation")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.3, -1)
+script = ExtResource("5_0xgf4")
+_animation = NodePath("../../AnimationPlayer")
+_weapons = Array[PackedScene]([ExtResource("6_orqt7")])
+
 [node name="Movement" type="Node3D" parent="." node_paths=PackedStringArray("_player", "_mesh", "_collision")]
 script = ExtResource("1_27w07")
 _player = NodePath("..")
 _mesh = NodePath("../MeshInstance")
 _collision = NodePath("../Collision")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n1tob")
+}
