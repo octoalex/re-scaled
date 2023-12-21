@@ -53,3 +53,5 @@ shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_thr54")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0073452, 5.97986, -0.0191383)
+
+[node name="Bullets" type="Node3D" parent="."]
