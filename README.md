@@ -16,6 +16,6 @@ The License Header is included where possible, except for:
 - Non-Text Files
 - Files Licensed to Me by Third Parties
 
-In the case of Non-Text Files, a file called LICENSE.md will be found in the same folder, containing:
+In the case of Non-Text Files, a file called LICENSE will be found in the same folder, containing:
 - The License Header
 - The Licensed Files
