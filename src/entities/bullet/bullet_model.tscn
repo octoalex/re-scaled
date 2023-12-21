@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d33061wmlkp1l"]
+
+[ext_resource type="PackedScene" uid="uid://cxrenh0ajhjkk" path="res://entities/bullet/bullet.blend" id="1_p601q"]
+[ext_resource type="Material" uid="uid://ct5q88tof1w15" path="res://entities/bullet/bullet_mat.tres" id="2_n7tol"]
+
+[node name="Model" instance=ExtResource("1_p601q")]
+
+[node name="Sphere" parent="." index="0"]
+material_override = ExtResource("2_n7tol")
