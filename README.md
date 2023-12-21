@@ -2,6 +2,8 @@
 
 My Game entry for the GitHub game-off (it ain't much)
 
+Couldn't complete it because life got extra in the way this month, will be working on it more during the vacations, tho
+
 ## Tasks & Goals
 
 You can find all that I intend to do in this game [in this file](TASKLIST.md)
