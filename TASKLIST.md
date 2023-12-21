@@ -10,7 +10,7 @@
   - [ ] wall jump
 - [ ] Weapons
     - [ ] pistol
-    - [ ] revolver
+    - [x] revolver
     - [ ] double barrel shotgun
     - [ ] bolt action rifle
     - [ ] musket
