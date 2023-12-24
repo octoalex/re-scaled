@@ -89,7 +89,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.261799, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.7)
+"times": PackedFloat32Array(0, 0.1, 0.7)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -124,7 +124,7 @@ _data = {
 [node name="Revolver" type="Node3D" node_paths=PackedStringArray("_firePoint", "_animationPlayer")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("2_vmcrc")
-_force = 10000.0
+_force = 4800.0
 _firePoint = NodePath("FirePoint")
 _animationPlayer = NodePath("AnimationPlayer")
 _bullet = ExtResource("3_cri3s")
