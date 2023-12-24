@@ -47,5 +47,6 @@ public partial class Revolver : Node3D, IWeapon {
 		bulletNode.ApplyForce(forwards * force);
 		bulletNode.SetInitialForwards(forwards);
 		bulletNode.Owner = Owner;
+		bulletNode.IgnoreOnCollideGroup = "player_bullet";
 	}
 }

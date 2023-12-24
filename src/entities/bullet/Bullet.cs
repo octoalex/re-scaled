@@ -13,17 +13,29 @@ namespace OctoAlex.ReScaled.Entities.Bullet;
 public partial class Bullet : RigidBody3D {
 
 	private Vector3 _prevPos;
-	
+
+	private string _ignoreOnCollideGroup = null;
+
 	public Bullet ( ) {
 		BodyEntered += _OnBulletCollide;
 	}
 
-	public void SetInitialForwards ( Vector3 forwards ) {
-		_prevPos = GlobalPosition - forwards;
+	public string IgnoreOnCollideGroup {
+		get => _ignoreOnCollideGroup;
+		set {
+			if (_ignoreOnCollideGroup != null) {
+				RemoveFromGroup(_ignoreOnCollideGroup);
+			}
+			AddToGroup(value);
+			_ignoreOnCollideGroup = value;
+		}
 	}
 
 	public IEntity Owner { get; set; }
 
+	public void SetInitialForwards ( Vector3 forwards ) {
+		_prevPos = GlobalPosition - forwards;
+	}
 	public override void _PhysicsProcess ( double delta ) {
 		Vector3 direction = (GlobalPosition - _prevPos).Normalized();
 		Vector3 cross = GlobalTransform.Basis.Z.Cross(direction).Normalized();
@@ -36,6 +48,9 @@ public partial class Bullet : RigidBody3D {
 		if (body.IsInGroup("entity") && body is IEntity bodyEntity && bodyEntity != Owner) {
 			bodyEntity.Hit();
 		}
-		QueueFree();
+
+		if (!body.IsInGroup(_ignoreOnCollideGroup)) {
+			QueueFree();
+		}
 	}
 }
