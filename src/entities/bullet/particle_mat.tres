@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dgy7hovvx1bix"]
+
+[resource]
+disable_ambient_light = true
+albedo_color = Color(1, 0.74902, 0, 1)
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 0.74902, 0, 1)
+rim_tint = 1.0
+billboard_keep_scale = true

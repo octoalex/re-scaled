@@ -5,6 +5,11 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 bullet.blend
 bullet.blend1
 bullet.tscn
-bullet.blend.tscn
+bullet.blend.import
 bullet_mat.tres
 bullet_model.tscn
+particle.blend
+particle.blend1
+particle.blend.import
+particle_mat.tres
+particle_model.tscn

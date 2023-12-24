@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7nh2p3utef4j"]
+
+[ext_resource type="PackedScene" uid="uid://du7kb8t7lpa7v" path="res://entities/bullet/particle.blend" id="1_maiet"]
+[ext_resource type="Material" uid="uid://dgy7hovvx1bix" path="res://entities/bullet/particle_mat.tres" id="2_ip54u"]
+
+[node name="Particle" instance=ExtResource("1_maiet")]
+
+[node name="Circle" parent="." index="0"]
+material_override = ExtResource("2_ip54u")
