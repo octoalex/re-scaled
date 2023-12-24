@@ -12,8 +12,22 @@ namespace OctoAlex.ReScaled.Entities.Bullet;
 
 public partial class Bullet : RigidBody3D {
 
+	private Vector3 _prevPos;
+	
 	public Bullet ( ) {
 		BodyEntered += _OnBulletCollide;
+	}
+
+	public void SetInitialForwards ( Vector3 forwards ) {
+		_prevPos = GlobalPosition - forwards;
+	}
+
+	public override void _PhysicsProcess ( double delta ) {
+		Vector3 direction = (GlobalPosition - _prevPos).Normalized();
+		Vector3 cross = GlobalTransform.Basis.Z.Cross(direction).Normalized();
+		float angle = GlobalTransform.Basis.Z.SignedAngleTo(direction, cross);
+		Rotate(cross, angle);
+		_prevPos = GlobalPosition;
 	}
 
 	private void _OnBulletCollide ( Node body ) {
