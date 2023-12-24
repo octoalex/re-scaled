@@ -7,6 +7,8 @@
 namespace OctoAlex.ReScaled.Common; 
 
 public interface IWeapon {
+	public IEntity Owner { get; set; }
+	
 	public bool CanFire ( );
 	
 	public void Fire ( );

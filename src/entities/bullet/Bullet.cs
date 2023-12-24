@@ -22,6 +22,8 @@ public partial class Bullet : RigidBody3D {
 		_prevPos = GlobalPosition - forwards;
 	}
 
+	public IEntity Owner { get; set; }
+
 	public override void _PhysicsProcess ( double delta ) {
 		Vector3 direction = (GlobalPosition - _prevPos).Normalized();
 		Vector3 cross = GlobalTransform.Basis.Z.Cross(direction).Normalized();
@@ -31,7 +33,7 @@ public partial class Bullet : RigidBody3D {
 	}
 
 	private void _OnBulletCollide ( Node body ) {
-		if (body.IsInGroup("entity") && body is IEntity bodyEntity) {
+		if (body.IsInGroup("entity") && body is IEntity bodyEntity && bodyEntity != Owner) {
 			bodyEntity.Hit();
 		}
 		QueueFree();

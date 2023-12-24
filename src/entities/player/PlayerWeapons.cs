@@ -47,6 +47,7 @@ public partial class PlayerWeapons : Node3D {
 	public void AddWeapon ( PackedScene weapon ) {
 		Node child = weapon.Instantiate();
 		IWeapon effective = child as IWeapon ?? throw new ArgumentException("New Weapon must implement IWeapon");
+		effective.Owner = GetNode<Node3D>("../../../Player") as IEntity;
 		AddChild(child);
 		
 		var bufferI = new IWeapon[_wEffective.Length + 1];

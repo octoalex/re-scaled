@@ -22,7 +22,9 @@ public partial class Revolver : Node3D, IWeapon {
 	[Export] private PackedScene _bullet;
 	
 	private Node3D _bulletsParent;
-	
+
+	public IEntity Owner { get; set; }
+
 	public bool CanFire ( ) {
 		return !_animationPlayer.IsPlaying();
 	}
@@ -44,5 +46,6 @@ public partial class Revolver : Node3D, IWeapon {
 		bulletNode.GlobalRotation = rotation;
 		bulletNode.ApplyForce(forwards * force);
 		bulletNode.SetInitialForwards(forwards);
+		bulletNode.Owner = Owner;
 	}
 }

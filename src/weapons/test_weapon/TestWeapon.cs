@@ -18,7 +18,9 @@ public partial class TestWeapon : Node3D, IWeapon {
 	[Export] private ulong _fireDelay;
 
 	private ulong _lastFired;
-	
+
+	public IEntity Owner { get; set; }
+
 	public void Fire ( ) {
 		if (!_ray.IsColliding()) return;
 		var collider = _ray.GetCollider() as CollisionObject3D;
