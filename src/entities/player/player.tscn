@@ -71,7 +71,7 @@ _player = NodePath("..")
 _camera = NodePath(".")
 
 [node name="Weapons" type="Node3D" parent="Camera3D" node_paths=PackedStringArray("_animation")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.3, -0.8)
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0.65, -0.4, -0.75)
 script = ExtResource("5_0xgf4")
 _animation = NodePath("../../AnimationPlayer")
 _weapons = Array[PackedScene]([ExtResource("5_y2j2y")])
