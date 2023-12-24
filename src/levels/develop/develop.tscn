@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://deu0jnkyjaf77"]
+[gd_scene load_steps=9 format=3 uid="uid://deu0jnkyjaf77"]
 
 [ext_resource type="Material" uid="uid://bg7oix7yx5pxr" path="res://levels/develop/floor_material.tres" id="1_2gtqg"]
 [ext_resource type="Material" uid="uid://626ywbnido4h" path="res://levels/develop/obstacle_material.tres" id="2_aqbel"]
@@ -14,6 +14,10 @@ size = Vector3(4, 1, 2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_x6s6k"]
 size = Vector3(4, 1, 2)
+
+[sub_resource type="Environment" id="Environment_45u8b"]
+glow_enabled = true
+glow_bloom = 0.25
 
 [node name="Develop" type="Node3D"]
 
@@ -55,3 +59,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0073452, 5.97986, -0.0191383)
 
 [node name="Bullets" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_45u8b")
