@@ -24,6 +24,10 @@ public partial class Revolver : Node3D, IWeapon {
 	private Node3D _bulletsParent;
 
 	public IEntity Owner { get; set; }
+	
+	public IWeapon.AmmonitionsIdEnum AmmonitionsID => IWeapon.AmmonitionsIdEnum.Bullet;
+	
+	public int AmmonitionsAmount => 0;
 
 	public bool CanFire ( ) {
 		return !_animationPlayer.IsPlaying();

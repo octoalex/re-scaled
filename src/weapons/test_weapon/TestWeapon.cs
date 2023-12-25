@@ -20,6 +20,10 @@ public partial class TestWeapon : Node3D, IWeapon {
 	private ulong _lastFired;
 
 	public IEntity Owner { get; set; }
+	
+	public IWeapon.AmmonitionsIdEnum AmmonitionsID => IWeapon.AmmonitionsIdEnum.None;
+	
+	public int AmmonitionsAmount => 0;
 
 	public void Fire ( ) {
 		if (!_ray.IsColliding()) return;

@@ -7,7 +7,17 @@
 namespace OctoAlex.ReScaled.Common; 
 
 public interface IWeapon {
+	
+	public enum AmmonitionsIdEnum {
+		None,
+		Bullet
+	}
+	
 	public IEntity Owner { get; set; }
+	
+	public AmmonitionsIdEnum AmmonitionsID { get; }
+	
+	public int AmmonitionsAmount { get; }
 	
 	public bool CanFire ( );
 	

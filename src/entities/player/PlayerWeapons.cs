@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Godot;
 using OctoAlex.ReScaled.Common;
 
@@ -16,6 +17,8 @@ public partial class PlayerWeapons : Node3D {
 
 	[Export] private PackedScene[] _weapons;
 
+	[Export] private Dictionary <IWeapon.AmmonitionsIdEnum, int> _ammonitions;
+
 	private IWeapon[] _wEffective;
 
 	private Node3D[] _wNodes;
@@ -23,6 +26,8 @@ public partial class PlayerWeapons : Node3D {
 	private int _active;
 
 	private bool _skipDeploy;
+
+	private IEntity _playerEntity;
 
 	public override void _Ready ( ) {
 		_wEffective = new IWeapon[_weapons.Length];
@@ -36,19 +41,27 @@ public partial class PlayerWeapons : Node3D {
 		}
 		_skipDeploy = false;
 		Deploy(0);
+		_ammonitions = new Dictionary <IWeapon.AmmonitionsIdEnum, int>();
+		_playerEntity = GetNode <Node3D>("../../../Player") as IEntity;
 	}
 
 	public override void _Input ( InputEvent evt ) {
 		if (!Input.IsActionJustPressed("fire") ||
-			!_wEffective[_active].CanFire()) return;
+		    !_wEffective[_active].CanFire()    ||
+			!HasAmmo(_wEffective[_active].AmmonitionsID)) {
+			return;
+		}
 		_wEffective[_active].Fire();
+		_ammonitions[_wEffective[_active].AmmonitionsID]--;
 	}
 
 	public void AddWeapon ( PackedScene weapon ) {
 		Node child = weapon.Instantiate();
 		IWeapon effective = child as IWeapon ?? throw new ArgumentException("New Weapon must implement IWeapon");
-		effective.Owner = GetNode<Node3D>("../../../Player") as IEntity;
+		effective.Owner = _playerEntity;
 		AddChild(child);
+
+		_ammonitions[effective.AmmonitionsID] += effective.AmmonitionsAmount;
 		
 		var bufferI = new IWeapon[_wEffective.Length + 1];
 		Array.Copy(_wEffective, bufferI, _wEffective.Length);
@@ -70,5 +83,13 @@ public partial class PlayerWeapons : Node3D {
 		_wNodes[next].Visible = true;
 		_active = next;
 		_wEffective[next].Deploy();
+	}
+
+	private bool HasAmmo ( IWeapon.AmmonitionsIdEnum type ) {
+		return type switch {
+			IWeapon.AmmonitionsIdEnum.None => false,
+			IWeapon.AmmonitionsIdEnum.Bullet => true,
+			_ => _ammonitions[type] >= 0
+		};
 	}
 }
