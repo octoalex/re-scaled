@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using Godot;
 using OctoAlex.ReScaled.Common;
 
@@ -17,7 +18,7 @@ public partial class PlayerWeapons : Node3D {
 
 	[Export] private PackedScene[] _weapons;
 
-	[Export] private Dictionary <IWeapon.AmmonitionsIdEnum, int> _ammonitions;
+	[Export] private Godot.Collections.Dictionary <string, int> _starterAmmonitions;
 
 	private IWeapon[] _wEffective;
 
@@ -29,6 +30,8 @@ public partial class PlayerWeapons : Node3D {
 
 	private IEntity _playerEntity;
 
+	private Dictionary <IWeapon.AmmonitionsIdEnum, int> _ammonitions;
+	
 	public override void _Ready ( ) {
 		_wEffective = new IWeapon[_weapons.Length];
 		_wNodes = new Node3D[_weapons.Length];
@@ -42,12 +45,22 @@ public partial class PlayerWeapons : Node3D {
 		_skipDeploy = false;
 		Deploy(0);
 		_ammonitions = new Dictionary <IWeapon.AmmonitionsIdEnum, int>();
+		foreach (var ammo in _starterAmmonitions) {
+			if (!Enum.TryParse(ammo.Key, out IWeapon.AmmonitionsIdEnum id)) {
+				throw new ArgumentException($"Ammo type {ammo.Key} does not exist!");
+			}
+			_ammonitions.Add(id, ammo.Value);
+		}
+		
+		_ammonitions.Add(IWeapon.AmmonitionsIdEnum.Bullet, 0);
+		_ammonitions.Add(IWeapon.AmmonitionsIdEnum.None, 0);
+		
 		_playerEntity = GetNode <Node3D>("../../../Player") as IEntity;
 	}
 
 	public override void _Input ( InputEvent evt ) {
 		if (!Input.IsActionJustPressed("fire") ||
-		    !_wEffective[_active].CanFire()    ||
+			!_wEffective[_active].CanFire()    ||
 			!HasAmmo(_wEffective[_active].AmmonitionsID)) {
 			return;
 		}
