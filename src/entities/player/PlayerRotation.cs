@@ -23,11 +23,7 @@ public partial class PlayerRotation : Camera3D {
 
 	public override void _Ready ( ) {
 		_mouse = new MouseInput(GetViewport());
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process ( double delta ) {
-		
+		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
 	public override void _Input ( InputEvent evt ) {
